@@ -99,8 +99,8 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 			}
 			else{
 				this.subLabel.text = _('Error');
+				console.log('Failed to get IP: ' + error);
 			}
-			log('Failed to get IP: ' + error);
 		}
 	}
 });
