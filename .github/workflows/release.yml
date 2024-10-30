@@ -1,8 +1,9 @@
 name: Create release and package CI
 
 on:
-    tags:
-        - 'v*'
+    push:
+        tags:
+            - 'v*'
 
 env:
     PROJECT_PACKAGE_NAME: "public-ip-address@fire-man-x"
