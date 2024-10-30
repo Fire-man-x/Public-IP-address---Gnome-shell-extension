@@ -1,0 +1,11 @@
+{
+  "name": "Public IP address",
+  "description": "Shows an public IP address",
+  "gettext-domain": "messages",
+  "shell-version": [
+    "47"
+  ],
+  "url": "https://gitlab.com/Fire-man-x/FuzzyClock",
+  "uuid": "public-ip-address@fire-man-x",
+  "version": 1
+}
