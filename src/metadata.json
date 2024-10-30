@@ -1,11 +1,11 @@
 {
   "name": "Public IP address",
-  "description": "Shows an public IP address",
+  "description": "Shows an public IPv4 and IPv6 address.\nIt uses 'lookup.test-ipv6.com' service to get the public address.",
   "gettext-domain": "messages",
   "shell-version": [
     "47"
   ],
   "url": "https://github.com/Fire-man-x/Public-IP-address---Gnome-shell-extension",
   "uuid": "public-ip-address@fire-man-x",
-  "version": 1
+  "version": 2
 }

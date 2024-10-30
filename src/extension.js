@@ -1,4 +1,5 @@
 import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 import GObject from "gi://GObject";
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import St from 'gi://St';
@@ -56,7 +57,7 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 		super(label);
 
 		this.subLabel = new St.Label({
-			text: 'Loading...',
+			text: _('Loading...'),
 			y_align: Clutter.ActorAlign.CENTER
 		});
 		this.add_child(this.subLabel);
@@ -90,10 +91,15 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 				const json = JSON.parse(responseData);
 				this.subLabel.text = json.ip;
 			} else {
-				this.subLabel.text = 'Error';
+				this.subLabel.text = _('Error');
 			}
 		} catch (error) {
-			this.subLabel.text = 'Error';
+			if (error instanceof Gio.IOErrorEnum){
+				this.subLabel.text = _('Unavailable');
+			}
+			else{
+				this.subLabel.text = _('Error');
+			}
 			log('Failed to get IP: ' + error);
 		}
 	}
