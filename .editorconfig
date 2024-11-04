@@ -1,0 +1,14 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = tab
+
+[{*.js}]
+ij_javascript_blank_lines_around_class = 1
+ij_javascript_blank_lines_around_field = 0
+ij_javascript_blank_lines_around_function = 1
+ij_javascript_blank_lines_around_method = 1
+ij_javascript_method_parameters_new_line_after_left_paren = true
+ij_javascript_method_parameters_right_paren_on_new_line = true
