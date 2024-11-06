@@ -18,8 +18,8 @@ jobs:
 
             -   name: Install dependencies
                 run: |
-                    sudo apt-get update
-                    sudo apt-get install -y gnome-shell-extensions gettext
+                    sudo apt-get update > /dev/null
+                    sudo apt-get install -y gnome-shell-extensions gettext > /dev/null
 
             -   name: Run prepare job
                 run: |
