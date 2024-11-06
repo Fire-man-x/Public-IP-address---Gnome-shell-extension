@@ -57,7 +57,7 @@ jobs:
                     asset_content_type: application/zip
 
             -   name: Upload to GNOME Extensions
-                uses: Fire-man-x/gnome-shell-extension-uploader@v1
+                uses: fire-man-x/gnome-shell-extension-uploader@v1
                 with:
                     gnome_username: ${{ secrets.GNOME_USERNAME }}
                     gnome_password: ${{ secrets.GNOME_PASSWORD }}
