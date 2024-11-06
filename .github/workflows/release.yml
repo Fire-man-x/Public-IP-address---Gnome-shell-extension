@@ -61,4 +61,4 @@ jobs:
                 with:
                     gnome_username: ${{ secrets.GNOME_USERNAME }}
                     gnome_password: ${{ secrets.GNOME_PASSWORD }}
-                    extension_zip_file: ./src/${{ env.PROJECT_PACKAGE_NAME }}.shell-extension.zip
+                    extension_zip_file: ${{ github.workspace }}/src/${{ env.PROJECT_PACKAGE_NAME }}.shell-extension.zip
