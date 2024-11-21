@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Poedit 3.4.4\n"
 
 #: src/extension.js:60
-msgid "Loading..."
-msgstr "Načítám..."
+msgid "Loading…"
+msgstr "Načítám…"
 
 #: src/extension.js:94 src/extension.js:101
 msgid "Error"

@@ -7,7 +7,7 @@ import Soup from 'gi://Soup';
 import Clutter from 'gi://Clutter';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 export default class PublicIPIndicatorExtension extends Extension {
 
@@ -57,7 +57,7 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 		super(label);
 
 		this.subLabel = new St.Label({
-			text: _('Loading...'),
+			text: _('Loading…'),
 			y_align: Clutter.ActorAlign.CENTER
 		});
 		this.add_child(this.subLabel);

@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/extension.js:60
-msgid "Loading..."
+msgid "Loading…"
 msgstr ""
 
 #: src/extension.js:94 src/extension.js:101
