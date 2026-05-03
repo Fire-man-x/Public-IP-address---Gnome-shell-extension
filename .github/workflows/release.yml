@@ -75,7 +75,7 @@ jobs:
                 run: if [ -f "./src/${{ env.PROJECT_PACKAGE_NAME }}.shell-extension.zip" ]; then echo "File exists"; else echo "File not found"; exit 1; fi
 
             -   name: Upload to GNOME Extensions
-                uses: fire-man-x/gnome-shell-extension-uploader@v1
+                uses: fire-man-x/gnome-shell-extension-uploader@v2
                 with:
                     gnome_username: ${{ secrets.GNOME_USERNAME }}
                     gnome_password: ${{ secrets.GNOME_PASSWORD }}
