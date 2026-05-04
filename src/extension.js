@@ -88,7 +88,9 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 				/** @var responseData Uint8Array  */
 				let responseData = response.get_data();
 				responseData = new TextDecoder().decode(responseData);
-				const json = JSON.parse(responseData);
+				// remove "callback(" and last char ")"
+				const jsonString = responseData.replace("callback(", "").replace("})", "}");
+				const json = JSON.parse(jsonString);
 				this.subLabel.text = json.ip;
 			} else {
 				this.subLabel.text = _('Error');
