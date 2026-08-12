@@ -9,6 +9,12 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
+const IP_VERSIONS = {
+	both: ['ipv4', 'ipv6'],
+	ipv4: ['ipv4'],
+	ipv6: ['ipv6'],
+};
+
 export default class PublicIPIndicatorExtension extends Extension {
 
 	panelMenuButton = null
@@ -18,17 +24,16 @@ export default class PublicIPIndicatorExtension extends Extension {
 	}
 
 	enable() {
+		this._settings = this.getSettings();
 
 		//panelMenuButton
 		this.panelMenuButton = new PanelMenu.Button(0.0, this.metadata.name, false); // 3rd-param - false => create menu
 		this.panelMenuButton.menu.connect('open-state-changed', (actor, event) => {
 			this.panelMenuButton.menu.removeAll();
 
-			let menuItem;
-			menuItem = new PublicIpPopupMenuItem("IPv4:");
-			this.panelMenuButton.menu.addMenuItem(menuItem);
-			menuItem = new PublicIpPopupMenuItem("IPv6:");
-			this.panelMenuButton.menu.addMenuItem(menuItem);
+			for (const version of IP_VERSIONS[this._settings.get_string('ip-version')]) {
+				this.panelMenuButton.menu.addMenuItem(new PublicIpPopupMenuItem(version));
+			}
 		});
 		const label = new St.Label({
 			text: 'IP',
@@ -53,7 +58,8 @@ export default class PublicIPIndicatorExtension extends Extension {
 
 const PublicIpPopupMenuItem = GObject.registerClass(
 class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
-	constructor(label) {
+	constructor(version) {
+		const label = version === 'ipv6' ? 'IPv6:' : 'IPv4:';
 		super(label);
 
 		this.subLabel = new St.Label({
@@ -67,19 +73,16 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 		});
 
 		this._httpSession = new Soup.Session();
-		this._refreshIP();
+		this._refreshIP(version);
 	}
 
-	async _refreshIP() {
+	async _refreshIP(version) {
 		try {
-			let message = null;
-			if(this.label.text === 'IPv6:'){
-				//message = Soup.Message.new('GET', 'https://api64.ipify.org?format=json');
-				message = Soup.Message.new('GET', 'https://ipv6.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn6');
-			} else {
-				//message = Soup.Message.new('GET', 'https://api.ipify.org?format=json');
-				message = Soup.Message.new('GET', 'https://ipv4.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn4');
-			}
+			const message = Soup.Message.new(
+				'GET',
+				version === 'ipv6'
+					? 'https://ipv6.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn6'
+					: 'https://ipv4.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn4');
 
 			// Použití send_and_read_async s asynchronním čtením
 			let response = await this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null);

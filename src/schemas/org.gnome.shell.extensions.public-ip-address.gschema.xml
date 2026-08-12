@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.public-ip-address"
+          path="/org/gnome/shell/extensions/public-ip-address/">
+    <key name="ip-version" type="s">
+      <default>'both'</default>
+      <choices>
+        <choice value='both'/>
+        <choice value='ipv4'/>
+        <choice value='ipv6'/>
+      </choices>
+      <summary>Which IP addresses to show</summary>
+      <description>Whether the panel menu shows both IPv4 and IPv6 addresses, or only one of them.</description>
+    </key>
+  </schema>
+</schemalist>
