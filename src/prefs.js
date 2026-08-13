@@ -3,9 +3,9 @@ import Gtk from 'gi://Gtk';
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const IP_VERSIONS = [
-    { key: 'both', label: 'Both IPv4 and IPv6' },
-    { key: 'ipv4', label: 'IPv4 only' },
-    { key: 'ipv6', label: 'IPv6 only' },
+    { key: 'both', label: () => _('Both IPv4 and IPv6') },
+    { key: 'ipv4', label: () => _('IPv4 only') },
+    { key: 'ipv6', label: () => _('IPv6 only') },
 ];
 
 export default class PublicIPPreferences extends ExtensionPreferences {
@@ -21,8 +21,8 @@ export default class PublicIPPreferences extends ExtensionPreferences {
         // Which addresses to show
         const ipVersionRow = new Adw.ComboRow({
             title: _('Show'),
-            subtitle: _('Which addresses to display in the panel menu'),
-            model: Gtk.StringList.new(IP_VERSIONS.map(v => _(v.label))),
+            subtitle: _('Which IP address versions to display in the panel menu'),
+            model: Gtk.StringList.new(IP_VERSIONS.map(v => v.label())),
             selected: Math.max(0, IP_VERSIONS.findIndex(v => v.key === settings.get_string('ip-version'))),
         });
         ipVersionRow.connect('notify::selected', row => {

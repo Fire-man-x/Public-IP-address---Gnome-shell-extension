@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Public IP address\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-13 09:24+0200\n"
-"PO-Revision-Date: 2026-08-13 10:39+0200\n"
+"POT-Creation-Date: 2026-08-13 14:37+0200\n"
+"PO-Revision-Date: 2026-08-13 14:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -17,17 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.9\n"
 
-#: extension.js:66
+#: extension.js:71
 msgid "Loading…"
 msgstr "Načítanie…"
 
-#: extension.js:99 extension.js:106
+#: extension.js:109 extension.js:116
 msgid "Error"
 msgstr "Chyba"
 
-#: extension.js:103
+#: extension.js:113
 msgid "Unavailable"
 msgstr "Nedostupné"
+
+#: prefs.js:6
+msgid "Both IPv4 and IPv6"
+msgstr "IPv4 aj IPv6"
+
+#: prefs.js:7
+msgid "IPv4 only"
+msgstr "Iba IPv4"
+
+#: prefs.js:8
+msgid "IPv6 only"
+msgstr "Iba IPv6"
 
 #: prefs.js:18
 msgid "General"
@@ -38,5 +50,5 @@ msgid "Show"
 msgstr "Zobraziť"
 
 #: prefs.js:24
-msgid "Which addresses to display in the panel menu"
-msgstr "Ktoré adresy sa majú zobraziť v ponuke panela"
+msgid "Which IP address versions to display in the panel menu"
+msgstr "Ktoré verzie IP adries sa majú zobraziť v ponuke panela"

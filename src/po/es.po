@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Public IP address\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-13 09:24+0200\n"
-"PO-Revision-Date: 2026-08-13 10:35+0200\n"
+"POT-Creation-Date: 2026-08-13 14:37+0200\n"
+"PO-Revision-Date: 2026-08-13 14:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -17,17 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.9\n"
 
-#: extension.js:66
+#: extension.js:71
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: extension.js:99 extension.js:106
+#: extension.js:109 extension.js:116
 msgid "Error"
 msgstr "Error"
 
-#: extension.js:103
+#: extension.js:113
 msgid "Unavailable"
 msgstr "No disponible"
+
+#: prefs.js:6
+msgid "Both IPv4 and IPv6"
+msgstr "IPv4 e IPv6"
+
+#: prefs.js:7
+msgid "IPv4 only"
+msgstr "Solo IPv4"
+
+#: prefs.js:8
+msgid "IPv6 only"
+msgstr "Solo IPv6"
 
 #: prefs.js:18
 msgid "General"
@@ -38,5 +50,5 @@ msgid "Show"
 msgstr "Mostrar"
 
 #: prefs.js:24
-msgid "Which addresses to display in the panel menu"
-msgstr "Qué direcciones mostrar en el menú del panel"
+msgid "Which IP address versions to display in the panel menu"
+msgstr "¿Qué versiones de direcciones IP se mostrarán en el menú del panel?"

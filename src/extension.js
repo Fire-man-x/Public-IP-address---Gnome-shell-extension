@@ -17,7 +17,9 @@ const IP_VERSIONS = {
 
 export default class PublicIPIndicatorExtension extends Extension {
 
-	panelMenuButton = null
+	_settings = null
+	_panelMenuButton = null
+	_openStateChangedId = null
 
 	constructor(metadata) {
 		super(metadata);
@@ -27,31 +29,34 @@ export default class PublicIPIndicatorExtension extends Extension {
 		this._settings = this.getSettings();
 
 		//panelMenuButton
-		this.panelMenuButton = new PanelMenu.Button(0.0, this.metadata.name, false); // 3rd-param - false => create menu
-		this.panelMenuButton.menu.connect('open-state-changed', (actor, event) => {
-			this.panelMenuButton.menu.removeAll();
+		this._panelMenuButton = new PanelMenu.Button(0.0, this.metadata.name, false); // 3rd-param - false => create menu
+		this._openStateChangedId = this._panelMenuButton.menu.connect('open-state-changed', (actor, event) => {
+			this._panelMenuButton.menu.removeAll();
 
 			for (const version of IP_VERSIONS[this._settings.get_string('ip-version')]) {
-				this.panelMenuButton.menu.addMenuItem(new PublicIpPopupMenuItem(version));
+				this._panelMenuButton.menu.addMenuItem(new PublicIpPopupMenuItem(version));
 			}
 		});
 		const label = new St.Label({
 			text: 'IP',
 			y_align: Clutter.ActorAlign.CENTER
 		});
-		this.panelMenuButton.add_child(label);
-		this.panelMenuButton.setSensitive(true);
+		this._panelMenuButton.add_child(label);
+		this._panelMenuButton.setSensitive(true);
 
-		Main.panel.addToStatusArea(this.metadata.uuid, this.panelMenuButton);
+		Main.panel.addToStatusArea(this.metadata.uuid, this._panelMenuButton);
 
 
 		//must be here for initialize menu
-		this.panelMenuButton.menu.addMenuItem(new PopupMenu.PopupMenuItem("Dummy"));
+		this._panelMenuButton.menu.addMenuItem(new PopupMenu.PopupMenuItem("Dummy"));
 	}
 
 	disable() {
-		this.panelMenuButton.destroy();
-		this.panelMenuButton = null;
+		this._panelMenuButton.menu.disconnect(this._openStateChangedId);
+		this._openStateChangedId = null;
+		this._panelMenuButton.destroy();
+		this._panelMenuButton = null;
+		this._settings = null;
 	}
 }
 
@@ -74,6 +79,11 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 
 		this._httpSession = new Soup.Session();
 		this._refreshIP(version);
+
+		this.connect('destroy', () => {
+			this._httpSession.abort();
+			this._httpSession = null;
+		});
 	}
 
 	async _refreshIP(version) {
@@ -84,7 +94,7 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 					? 'https://ipv6.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn6'
 					: 'https://ipv4.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn4');
 
-			// Použití send_and_read_async s asynchronním čtením
+			// Use send_and_read_async with asynchronous reading
 			let response = await this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null);
 
 			if (message.get_status() === Soup.Status.OK) {
