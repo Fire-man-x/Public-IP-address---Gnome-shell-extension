@@ -67,23 +67,31 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 		const label = version === 'ipv6' ? 'IPv6:' : 'IPv4:';
 		super(label);
 
-		this.subLabel = new St.Label({
+		this._subLabel = new St.Label({
 			text: _('Loading…'),
 			y_align: Clutter.ActorAlign.CENTER
 		});
-		this.add_child(this.subLabel);
+		this.add_child(this._subLabel);
 
-		this.connect('activate', (item, event) => {
-			St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, this.subLabel.text);
+		this._activateId = this.connect('activate', (item, event) => {
+			St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, this._subLabel.text);
 		});
 
 		this._httpSession = new Soup.Session();
 		this._refreshIP(version);
+	}
 
-		this.connect('destroy', () => {
+	destroy() {
+		if (this._httpSession) {
 			this._httpSession.abort();
 			this._httpSession = null;
-		});
+		}
+		if (this._activateId) {
+			this.disconnect(this._activateId);
+			this._activateId = null;
+		}
+		this._subLabel = null;
+		super.destroy();
 	}
 
 	async _refreshIP(version) {
@@ -93,6 +101,9 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 				version === 'ipv6'
 					? 'https://ipv6.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn6'
 					: 'https://ipv4.lookup.test-ipv6.com/ip/?testdomain=test-ipv6.cz&testname=test_asn4');
+
+			if (!this._httpSession)
+				return;
 
 			// Use send_and_read_async with asynchronous reading
 			let response = await this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null);
@@ -104,16 +115,18 @@ class PublicIpPopupMenuItem extends PopupMenu.PopupMenuItem {
 				// remove "callback(" and last char ")"
 				const jsonString = responseData.replace("callback(", "").replace("})", "}");
 				const json = JSON.parse(jsonString);
-				this.subLabel.text = json.ip;
+				this._subLabel.text = json.ip;
 			} else {
-				this.subLabel.text = _('Error');
+				this._subLabel.text = _('Error');
 			}
 		} catch (error) {
+			if (!this._httpSession)
+				return;
 			if (error instanceof Gio.IOErrorEnum){
-				this.subLabel.text = _('Unavailable');
+				this._subLabel.text = _('Unavailable');
 			}
 			else{
-				this.subLabel.text = _('Error');
+				this._subLabel.text = _('Error');
 				console.log('Failed to get IP: ' + error);
 			}
 		}
